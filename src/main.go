@@ -9,22 +9,6 @@ import (
 	"strings"
 )
 
-// Function to write a string to a file.
-func writeToFile(filename, content string) error {
-	file, err := os.Create(filename)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	_, err = file.WriteString(content)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
 func decodeBase64(encodedStr string) (string, error) {
 	// Decode the Base64 encoded string
 	decodedBytes, err := base64.StdEncoding.DecodeString(encodedStr)
@@ -38,7 +22,7 @@ func decodeBase64(encodedStr string) (string, error) {
 }
 
 func main() {
-	// Array to store paths of .cfg files
+	// Array to store paths of .exp files
 	var cfgFiles []string
 
 	// Walk through the current directory
@@ -47,8 +31,8 @@ func main() {
 			return err
 		}
 
-		// Check if the file extension is .cfg
-		if !info.IsDir() && filepath.Ext(path) == ".cfg" {
+		// Check if the file extension is .exp
+		if !info.IsDir() && filepath.Ext(path) == ".exp" {
 			cfgFiles = append(cfgFiles, path)
 		}
 
@@ -60,10 +44,10 @@ func main() {
 		return
 	}
 
-	// Array to store contents of .cfg files
+	// Array to store contents of .exp files
 	var cfgContents []string
 
-	// Read the contents of each .cfg file
+	// Read the contents of each .exp file
 	for _, path := range cfgFiles {
 		file, err := os.Open(path)
 		if err != nil {
@@ -94,7 +78,7 @@ func main() {
 		cfgContents = append(cfgContents, content)
 	}
 
-	// Print the contents of each .cfg file
+	// Print the contents of each .exp file
 	for i, content := range cfgContents {
 		//fmt.Printf("Content of %s:\n%s\n", cfgFiles[i], content)
 		var cleansw string
