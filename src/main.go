@@ -55,11 +55,16 @@ func main() {
 			continue
 		}
 		defer file.Close()
-
-		var maxBufferSize = 32 * 1024 * 1024
+		info, infoErr := file.Stat()
+		if infoErr != nil {
+			fmt.Printf("Error opening file %s: %v\n", path, err)
+			continue
+		}
+		var maxSize int
 		scanner := bufio.NewScanner(file)
-		buffer := make([]byte, 0, maxBufferSize)
-		scanner.Buffer(buffer, maxBufferSize)
+		maxSize = int(info.Size())
+		buffer := make([]byte, 0, maxSize)
+		scanner.Buffer(buffer, maxSize)
 		var content string
 		for scanner.Scan() {
 			content += scanner.Text() + "\n"
