@@ -55,16 +55,10 @@ func main() {
 			continue
 		}
 		defer file.Close()
-		info, infoErr := file.Stat()
-		if infoErr != nil {
-			fmt.Printf("Error opening file %s: %v\n", path, err)
-			continue
-		}
-		var maxSize int
+		var maxBufferSize int = 32 * 1024 * 1024
 		scanner := bufio.NewScanner(file)
-		maxSize = int(info.Size())
-		buffer := make([]byte, 0, maxSize)
-		scanner.Buffer(buffer, maxSize)
+		buffer := make([]byte, 0, maxBufferSize)
+		scanner.Buffer(buffer, maxBufferSize)
 		var content string
 		for scanner.Scan() {
 			content += scanner.Text() + "\n"
@@ -81,8 +75,7 @@ func main() {
 	// Print the contents of each .exp file
 	for i, content := range cfgContents {
 		//fmt.Printf("Content of %s:\n%s\n", cfgFiles[i], content)
-		var cleansw string
-		cleansw = strings.ReplaceAll(content, "&&", "")
+		var cleansw string = strings.ReplaceAll(content, "&&", "")
 		decodedStr, swerr := decodeBase64(cleansw)
 		output := strings.ReplaceAll(decodedStr, "&", "\n")
 		file, fileerr := os.Create("sonicwall_config_export" + cfgFiles[i] + ".txt")
