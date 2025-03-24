@@ -6,4 +6,4 @@ Decided to create a script to faciliate dumping Sonicwall .exp exports to plaint
 
 ## Usage
 
-Run the binary in the directory containing your Sonicwall .exp file(s). It will dump all .cfg files found in the current directory to a plaintext file for each one named `sonicwall_config_export(FILENAME).txt`.
+Run the binary in the directory containing your Sonicwall .exp file(s). It will dump all .exp files found in the current directory to a plaintext file for each one named `sonicwall_config_export(FILENAME).txt`.
